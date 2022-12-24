@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,11 +24,17 @@ public class MemberControllerImpl implements MemberController {
 	private MemberService memberService;
 	@Autowired
 	private MemberVO memberVO;
+	
+	private static final Logger logger = LoggerFactory.getLogger(MemberControllerImpl.class);
 
 	@Override
 	@RequestMapping(value = "/member/listMembers.do", method = RequestMethod.GET)
 	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = getViewName(request);
+		
+		logger.info("info level : viewName =" + viewName);
+		logger.debug("debug level : viewName =" + viewName);
+		
 		List membersList = memberService.listMembers();
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("membersList", membersList);
